@@ -11,3 +11,5 @@ Follow these steps to run this app:
 6)run 'php artisan serve' to run the application on the PHP dev server
 
 Now this application should be running on http://localhost:8000/
+
+In the POSTMAN_COLLECTION folder you can find the task-api postman collection.
