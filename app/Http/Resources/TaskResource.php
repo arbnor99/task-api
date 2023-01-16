@@ -19,8 +19,7 @@ class TaskResource extends JsonResource
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'name' => $this->name,
-            'description' => $this->description,
-            'time_logged' => CarbonInterval::minutes($this->time_logged)->cascade()->forHumans()
+            'description' => $this->description
         ];
     }
 }

@@ -5,13 +5,12 @@ use App\Models\Task;
 use App\Models\User;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Carbon\CarbonInterval;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class TaskRepository implements TaskRepositoryInterface
+class TaskEloquentRepository implements TaskRepositoryInterface
 {
     public function getAllTasks()
     {
-        return Task::where('user_id', auth()->user()->id)->get();
+        return Task::where('user_id', auth()->user()->id)->paginate(10);
     }
 
     public function getTaskById(int $id)
@@ -19,7 +18,7 @@ class TaskRepository implements TaskRepositoryInterface
         $task = Task::where([
             ['user_id', auth()->user()->id],
             ['id', $id]
-        ])->firstOrFail();
+        ])->with('children')->firstOrFail();
 
         return $task;
     }
@@ -52,6 +51,8 @@ class TaskRepository implements TaskRepositoryInterface
         $task = $this->getTaskById($id);
         $task->time_logged = $timeInMinutes;
         $task->save();
+
+        return $timeInMinutes;
     }
 
     public function getTotalTime(int $id)
